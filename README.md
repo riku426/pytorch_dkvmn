@@ -10,3 +10,8 @@ https://sites.google.com/site/assistmentsdata/home/assistment-2009-2010-data/ski
 http://papers.www2017.com.au.s3-website-ap-southeast-2.amazonaws.com/proceedings/p765.pdf
 
 https://github.com/tianlinyang/DKVMN
+
+
+# 精度
+0.7311
+python main.py --batch_size=64 --n_question=124 --seqlen=739 --gpu=-1 --max_iter=20

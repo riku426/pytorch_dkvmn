@@ -88,8 +88,8 @@ def main():
 
     if params.gpu >= 0:
         print('device: ' + str(params.gpu))
-        torch.cuda.set_device(params.gpu)
-        model.cuda()
+        device = torch.device('mps')
+        model.to(device)
 
     all_train_loss = {}
     all_train_accuracy = {}
