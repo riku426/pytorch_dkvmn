@@ -31,12 +31,12 @@ class DATA(object):
         for lineID, line in enumerate(f_data):
             line = line.strip( )
             # lineID starts from 0
-            if lineID % 3 == 1:
+            if lineID % 4 == 1:
                 Q = line.split(self.separate_char)
                 if len( Q[len(Q)-1] ) == 0:
                     Q = Q[:-1]
                 #print(len(Q))
-            elif lineID % 3 == 2:
+            elif lineID % 4 == 3:
                 A = line.split(self.separate_char)
                 if len( A[len(A)-1] ) == 0:
                     A = A[:-1]

@@ -6,7 +6,7 @@ from run import train, test
 import numpy as np
 import torch.optim as optim
 
-from data_loader import DATA_RAW
+from data_loader import DATA_RAW, DATA
 
 
 def main():
@@ -51,6 +51,18 @@ def main():
         parser.add_argument('--data_name', type=str, default='STATICS', help='data set name')
         parser.add_argument('--load', type=str, default='STATICS', help='model file to load')
         parser.add_argument('--save', type=str, default='STATICS', help='path to save model')
+    
+    elif dataset == 'algebra':
+        parser.add_argument('--q_embed_dim', type=int, default=50, help='question embedding dimensions')
+        parser.add_argument('--batch_size', type=int, default=32, help='the batch size')
+        parser.add_argument('--qa_embed_dim', type=int, default=200, help='answer and question embedding dimensions')
+        parser.add_argument('--memory_size', type=int, default=20, help='memory size')
+        parser.add_argument('--n_question', type=int, default=138, help='the number of unique questions in the dataset')
+        parser.add_argument('--seqlen', type=int, default=200, help='the allowed maximum length of a sequence')
+        parser.add_argument('--data_dir', type=str, default='./data/assist2009_updated', help='data directory')
+        parser.add_argument('--data_name', type=str, default='assist2009_updated', help='data set name')
+        parser.add_argument('--load', type=str, default='assist2009_updated', help='model file to load')
+        parser.add_argument('--save', type=str, default='assist2009_updated', help='path to save model')
 
 
 
@@ -60,13 +72,19 @@ def main():
     params.memory_value_state_dim = params.qa_embed_dim
 
     print(params)
-    data_path = './data/assist2009_raw/skill_builder_data_corrected.csv'
+    # data_path = './data/assist2009_raw/skill_builder_data_corrected.csv'
+    data_path = './data/assist09/4_Ass_09_train.csv'
+    valid_path = './data/assist09/4_Ass_09_test.csv'
 
-    dat = DATA_RAW(n_question=params.n_question, seqlen=params.seqlen, separate_char=',')
+    # dat = DATA_RAW(n_question=params.n_question, seqlen=params.seqlen, separate_char=',')
     # train_data_path = params.data_dir + "/" + "test5.1.txt"
+    dat = DATA(params.n_question, seqlen=params.seqlen,separate_char=',')
+    train_q_data, train_qa_data = dat.load_data(data_path)
+    valid_q_data, valid_qa_data = dat.load_data(valid_path)
+    
 
-    all_data = dat.get_processed_data(data_path)
-    train_q_data, train_qa_data, valid_q_data, valid_qa_data = all_data[0] # first fold
+    # all_data = dat.get_processed_data(data_path)
+    # train_q_data, train_qa_data, valid_q_data, valid_qa_data = all_data[0] # first fold
 
     params.memory_key_state_dim = params.q_embed_dim
     params.memory_value_state_dim = params.qa_embed_dim
